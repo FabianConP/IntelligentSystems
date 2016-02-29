@@ -1,0 +1,60 @@
+Random movements: 10
+
+Mean h0: 43.76
+Mean h1: 57.2
+Mean h2: 43.76
+Median h0: 36.5
+Median h1: 40.0
+Median h2: 36.5
+Standard deviation mean h0: 41.653119931164824
+Standard deviation mean h1: 88.01499872180878
+Standard deviation mean h2: 41.653119931164824
+Standard deviation median h0: 42.28108324061719
+Standard deviation median h1: 89.67987511142061
+Standard deviation median h2: 42.28108324061719
+
+Random movements: 15
+
+Mean h0: 232.52
+Mean h1: 375.4
+Mean h2: 232.52
+Median h0: 89.5
+Median h1: 111.5
+Median h2: 89.5
+Standard deviation mean h0: 299.85424726023143
+Standard deviation mean h1: 696.1331481835928
+Standard deviation mean h2: 299.85424726023143
+Standard deviation median h0: 332.2157281044954
+Standard deviation median h1: 744.4760372234958
+Standard deviation median h2: 332.2157281044954
+
+Random movements: 20
+
+Mean h0: 386.44
+Mean h1: 573.96
+Mean h2: 386.44
+Median h0: 71.5
+Median h1: 60.5
+Median h2: 71.5
+Standard deviation mean h0: 800.4032523672053
+Standard deviation mean h1: 1561.2866099470655
+Standard deviation mean h2: 800.4032523672053
+Standard deviation median h0: 860.1352044882246
+Standard deviation median h1: 1643.5501361382317
+Standard deviation median h2: 860.1352044882246
+
+Random movements: 25
+
+Mean h0: 1235.16
+Mean h1: 2440.52
+Mean h2: 1235.16
+Median h0: 589.0
+Median h1: 1030.5
+Median h2: 589.0
+Standard deviation mean h0: 1555.5943347801187
+Standard deviation mean h1: 4240.614711288918
+Standard deviation mean h2: 1555.5943347801187
+Standard deviation median h0: 1684.457325075349
+Standard deviation median h1: 4468.88907112271
+Standard deviation median h2: 1684.457325075349
+
