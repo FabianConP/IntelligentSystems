@@ -5,6 +5,7 @@ import java.util.Collections;
 import board.Board;
 import solver.AStarBoard;
 import solver.Heuristic;
+import solver.IDS;
 
 public class Main {
 
@@ -15,27 +16,31 @@ public class Main {
 	static final int NUM_IDS = 1;
 
 	public static void main(String[] args) throws Exception {
-		 System.setOut(new PrintStream("Log.txt"));
-		Board correctBoard = Board.getFirstBoard();
+		System.setOut(new PrintStream("Log.txt"));
+		StringBuilder r = new StringBuilder();
+		long correctBoard = Board.FIRST_BOARD;
 		for (int i = MIN_AMOUNT_RAND_MOV; i <= MAX_AMOUNT_RAND_MOV; i += 5) {
+			System.out.println(i);
 			ArrayList<Integer>[] h = new ArrayList[4];
-			for (int j = 0; j < NUM_HEURISTICS; j++)
+			for (int j = 0; j < NUM_HEURISTICS + NUM_IDS; j++)
 				h[j] = new ArrayList<>();
 			for (int j = 0; j < TEST_PER_BOARD; j++) {
-				Board board = Board.getFirstBoard();
-				for (int r = 0; r < i; r++)
-					board.randMovement();
+				long board = Board.FIRST_BOARD;
+				for (int rr = 0; rr < i; rr++)
+					board = Board.randMovement(board);
 				for (int k = 0; k < NUM_HEURISTICS; k++)
-					h[k].add(AStarBoard.solve(correctBoard, (Board) board.clone(), Heuristic.H[k]));
+					h[k].add(AStarBoard.solve(correctBoard, board, Heuristic.H[k]));
+				for (int k = NUM_HEURISTICS; k < NUM_HEURISTICS + NUM_IDS; k++)
+					h[k].add(IDS.solve(correctBoard, board));
 			}
 			double[] mean = new double[NUM_HEURISTICS + NUM_IDS];
 			double[] median = new double[NUM_HEURISTICS + NUM_IDS];
 			double[] devMean = new double[NUM_HEURISTICS + NUM_IDS];
 			double[] devMedian = new double[NUM_HEURISTICS + NUM_IDS];
 			int a = TEST_PER_BOARD / 2;
-			for (int j = 0; j < NUM_HEURISTICS; j++)
+			for (int j = 0; j < NUM_HEURISTICS + NUM_IDS; j++)
 				Collections.sort(h[j]);
-			for (int k = 0; k < NUM_HEURISTICS; k++) {
+			for (int k = 0; k < NUM_HEURISTICS + NUM_IDS; k++) {
 				for (int j = 0; j < TEST_PER_BOARD; j++)
 					mean[k] += h[k].get(j);
 				mean[k] /= TEST_PER_BOARD;
@@ -47,16 +52,21 @@ public class Main {
 				devMean[k] = Math.sqrt(devMean[k] / TEST_PER_BOARD);
 				devMedian[k] = Math.sqrt(devMedian[k] / TEST_PER_BOARD);
 			}
-			System.out.println("Random movements: " + i + "\n");
-			for (int j = 0; j < NUM_HEURISTICS; j++)
-				System.out.println("Mean h" + j + ": " + mean[j]);
-			for (int j = 0; j < NUM_HEURISTICS; j++)
-				System.out.println("Median h" + j + ": " + median[j]);
-			for (int j = 0; j < NUM_HEURISTICS; j++)
-				System.out.println("Standard deviation mean h" + j + ": " + devMean[j]);
-			for (int j = 0; j < NUM_HEURISTICS; j++)
-				System.out.println("Standard deviation median h" + j + ": " + devMedian[j]);
-			System.out.println();
+			// r.append("Random movements: " + i + "\n\n");
+			// for (int j = 0; j < NUM_HEURISTICS + NUM_IDS; j++)
+			// r.append("Mean " + (j < NUM_HEURISTICS ? ('h' + j) : "IDS") + ":
+			// " + mean[j]+"\n");
+			// for (int j = 0; j < NUM_HEURISTICS + NUM_IDS; j++)
+			// r.append("Median " + (j < NUM_HEURISTICS ? ('h' + j) : "IDS") +
+			// ": " + median[j]+"\n");
+			// for (int j = 0; j < NUM_HEURISTICS + NUM_IDS; j++)
+			// r.append("Standard deviation mean " + (j < NUM_HEURISTICS ? ('h'
+			// + j) : "IDS") + devMean[j]+"\n");
+			// for (int j = 0; j < NUM_HEURISTICS + NUM_IDS; j++)
+			// r.append(
+			// "Standard deviation median " + (j < NUM_HEURISTICS ? ('h' + j) :
+			// "IDS") + devMedian[j]+"\n");
 		}
+		System.out.println(r);
 	}
 }

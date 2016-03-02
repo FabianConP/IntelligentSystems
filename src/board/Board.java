@@ -1,46 +1,35 @@
 package board;
 
+import java.util.HashMap;
+import java.util.Stack;
+
 public class Board {
 
 	public static final int SPACE = 15;
-	private long board;
+	public static final int SIZE = 4;
+	public static final long FIRST_BOARD = 1070935975390360080L;
 
-	public Board() {
-		this.board = 0;
-	}
+	/*
+	 * private long board;
+	 * 
+	 * public Board() { this.board = 0; }
+	 * 
+	 * public Board(long board) { this.board = board; }
+	 * 
+	 * @Override public int hashCode() { return Long.valueOf(board).hashCode();
+	 * }
+	 * 
+	 * @Override public boolean equals(Object obj) { if (this == obj) return
+	 * true; if (obj == null) return false; if (getClass() != obj.getClass())
+	 * return false; Board other = (Board) obj; if (board != other.board) return
+	 * false; return true; }
+	 * 
+	 * public long getBoard() { return board; }
+	 * 
+	 * public void setBoard(long board) { this.board = board; }
+	 */
 
-	public Board(long board) {
-		this.board = board;
-	}
-
-	@Override
-	public int hashCode() {
-		return Long.valueOf(board).hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Board other = (Board) obj;
-		if (board != other.board)
-			return false;
-		return true;
-	}
-
-	public long getBoard() {
-		return board;
-	}
-
-	public void setBoard(long board) {
-		this.board = board;
-	}
-
-	public int getPos(int pos) {
+	public static int getPos(long board, int pos) {
 		int mask = 0, num = 0;
 		long b = board;
 		for (int i = 0; i < 15; i++) {
@@ -56,7 +45,7 @@ public class Board {
 		return 0;
 	}
 
-	public void setPos(int pos, int value) {
+	public static long setPos(long board, int pos, int value) {
 		if (pos < 15) {
 			long rp = (1L << (pos * 4L)) - 1L, rigth = rp & board, v = (long) value;
 			// System.out.println(Long.toBinaryString(board));
@@ -69,27 +58,28 @@ public class Board {
 			board |= rigth;
 			// System.out.println(Long.toBinaryString(board));
 		}
+		return board;
 	}
 
-	public void swap(int posA, int posB) {
-		int aux = getPos(posA);
-		setPos(posA, getPos(posB));
-		setPos(posB, aux);
+	public static long swap(long board, int posA, int posB) {
+		int aux = Board.getPos(board, posA);
+		board = Board.setPos(board, posA, Board.getPos(board, posB));
+		board = setPos(board, posB, aux);
+		return board;
 	}
+	//
+	// @Override
+	// public Object clone() throws CloneNotSupportedException {
+	// return new Board(this.board);
+	// }
 
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return new Board(this.board);
-	}
-
-	@Override
-	public String toString() {
-		int size = getSize(), id = 0;
+	public static String toString2(long board) {
+		int size = Board.SIZE, id = 0;
 		StringBuilder r = new StringBuilder("[");
 		for (int i = 0; i < size; i++) {
 			r.append("[");
 			for (int j = 0; j < size; j++)
-				r.append(getPos(id++) + ",");
+				r.append(Board.getPos(board, id++) + ",");
 			r.setLength(r.length() - 1);
 			r.append("],");
 		}
@@ -98,15 +88,40 @@ public class Board {
 		return "Board [board=" + r.toString() + "]";
 	}
 
-	public void randMovement() {
-		BoardMovement.rand(this);
+	public static String toString(long board) {
+		int size = Board.SIZE, id = 0, num = 0;
+		StringBuilder r = new StringBuilder("");
+		for (int i = 0; i < size; i++) {
+			r.append("[");
+			for (int j = 0; j < size; j++) {
+				num = Board.getPos(board, id++);
+				if (num == Board.SPACE)
+					r.append("  ,");
+				else
+					r.append(String.format("%2d", num) + ",");
+			}
+			r.setLength(r.length() - 1);
+			r.append("]\n");
+		}
+		// return "Board [board=" + r.toString() + "]";
+		return r.toString();
 	}
 
-	public static Board getFirstBoard() {
-		return new Board(1070935975390360080L);
+	public static long randMovement(long board) {
+		board = BoardMovement.rand(board);
+		return board;
 	}
 
-	public int getSize() {
-		return 4;
+	public static String printPath(long initialBoard, HashMap<Long, Long> pastStates) {
+		StringBuilder r = new StringBuilder("Path\n");
+		long board = initialBoard;
+		Stack<Long> s = new Stack<>();
+		while (board != -1) {
+			s.push(board);
+			board = pastStates.get(board);
+		}
+		while (!s.isEmpty())
+			r.append(Board.toString(s.pop()) + "\n");
+		return r.toString();
 	}
 }
