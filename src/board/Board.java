@@ -3,32 +3,24 @@ package board;
 import java.util.HashMap;
 import java.util.Stack;
 
+/**
+ * 
+ * @author Fabian Conejo
+ *
+ */
 public class Board {
 
 	public static final int SPACE = 15;
 	public static final int SIZE = 4;
 	public static final long FIRST_BOARD = 1070935975390360080L;
 
-	/*
-	 * private long board;
-	 * 
-	 * public Board() { this.board = 0; }
-	 * 
-	 * public Board(long board) { this.board = board; }
-	 * 
-	 * @Override public int hashCode() { return Long.valueOf(board).hashCode();
-	 * }
-	 * 
-	 * @Override public boolean equals(Object obj) { if (this == obj) return
-	 * true; if (obj == null) return false; if (getClass() != obj.getClass())
-	 * return false; Board other = (Board) obj; if (board != other.board) return
-	 * false; return true; }
-	 * 
-	 * public long getBoard() { return board; }
-	 * 
-	 * public void setBoard(long board) { this.board = board; }
+	/**
+	 * Returns the value at the position on the 
+	 * board
+	 * @param board Puzzle 4x4
+	 * @param pos 	Position to return
+	 * @return value at the position 
 	 */
-
 	public static int getPos(long board, int pos) {
 		int mask = 0, num = 0;
 		long b = board;
@@ -45,49 +37,46 @@ public class Board {
 		return 0;
 	}
 
+	
+	/**
+	 * Returns the new board with the
+	 * change at the position on the board
+	 * @param board Puzzle 4x4
+	 * @param pos	Position to change
+	 * @param value New value at the position
+	 * @return new board with the change
+	 */
 	public static long setPos(long board, int pos, int value) {
 		if (pos < 15) {
 			long rp = (1L << (pos * 4L)) - 1L, rigth = rp & board, v = (long) value;
-			// System.out.println(Long.toBinaryString(board));
 			board >>= (4L * (pos + 1));
-			// System.out.println(Long.toBinaryString(board));
 			board <<= (4L * (pos + 1));
-			// System.out.println(Long.toBinaryString(board));
 			board |= (v << (pos * 4L));
-			// System.out.println(Long.toBinaryString(board));
 			board |= rigth;
-			// System.out.println(Long.toBinaryString(board));
 		}
 		return board;
 	}
 
+	/**
+	 * Swaps the values from two positions
+	 * on the board
+	 * @param board Puzzle 4x4
+	 * @param posA	First position
+	 * @param posB	Second position
+	 * @return	new boards with the swaps
+	 */
 	public static long swap(long board, int posA, int posB) {
 		int aux = Board.getPos(board, posA);
 		board = Board.setPos(board, posA, Board.getPos(board, posB));
 		board = setPos(board, posB, aux);
 		return board;
 	}
-	//
-	// @Override
-	// public Object clone() throws CloneNotSupportedException {
-	// return new Board(this.board);
-	// }
 
-	public static String toString2(long board) {
-		int size = Board.SIZE, id = 0;
-		StringBuilder r = new StringBuilder("[");
-		for (int i = 0; i < size; i++) {
-			r.append("[");
-			for (int j = 0; j < size; j++)
-				r.append(Board.getPos(board, id++) + ",");
-			r.setLength(r.length() - 1);
-			r.append("],");
-		}
-		r.setLength(r.length() - 1);
-		r.append("]");
-		return "Board [board=" + r.toString() + "]";
-	}
-
+	/**
+	 * Returns the puzzle with format
+	 * @param board	Puzzle 4x4
+	 * @return puzzle formatted
+	 */
 	public static String toString(long board) {
 		int size = Board.SIZE, id = 0, num = 0;
 		StringBuilder r = new StringBuilder("");
@@ -103,15 +92,27 @@ public class Board {
 			r.setLength(r.length() - 1);
 			r.append("]\n");
 		}
-		// return "Board [board=" + r.toString() + "]";
 		return r.toString();
 	}
 
+	/**
+	 * Returns the board with a
+	 * random movement in the space
+	 * @param board Puzzle 4x4
+	 * @return	new board with the random movement
+	 */
 	public static long randMovement(long board) {
 		board = BoardMovement.rand(board);
 		return board;
 	}
 
+	/**
+	 * Returns the path from  unsolved 
+	 * to correct board
+	 * @param initialBoard	Correct board
+	 * @param pastStates	Predecessors 
+	 * @return	path from unsolved to correct board
+	 */
 	public static String printPath(long initialBoard, HashMap<Long, Long> pastStates) {
 		StringBuilder r = new StringBuilder("Path\n");
 		long board = initialBoard;

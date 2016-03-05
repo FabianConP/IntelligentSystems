@@ -1,25 +1,17 @@
 package board;
 
-public class BoardState implements Comparable<BoardState> {
+/**
+ * 
+ * @author Fabian Conejo
+ *
+ */
+public class BoardState {
 	private long board;
-	private int cost;
 	private long prev;
-
-	public BoardState(long board, int cost, long prev) {
-		super();
+	
+	public BoardState(long board, long prev) {
 		this.board = board;
-		this.cost = cost;
 		this.prev = prev;
-	}
-
-	@Override
-	public int compareTo(BoardState o) {
-		return cost - o.cost;
-	}
-
-	@Override
-	public String toString() {
-		return "BoardState [board=" + Board.toString(board) + ", cost=" + cost + ", prev=" + Board.toString(prev) + "]";
 	}
 
 	public long getBoard() {
@@ -30,14 +22,6 @@ public class BoardState implements Comparable<BoardState> {
 		this.board = board;
 	}
 
-	public int getCost() {
-		return cost;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
-
 	public long getPrev() {
 		return prev;
 	}
@@ -46,4 +30,10 @@ public class BoardState implements Comparable<BoardState> {
 		this.prev = prev;
 	}
 
+	@Override
+	public String toString() {
+		return "BoardState [board=\n" + Board.toString(board) + "\n, prev=" + prev + "]";
+	}
+
+	
 }

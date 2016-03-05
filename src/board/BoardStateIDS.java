@@ -1,31 +1,16 @@
 package board;
 
-public class BoardStateIDS {
-	private long board;
-	private long prev;
+/**
+ * 
+ * @author Fabian Conejo
+ *
+ */
+public class BoardStateIDS extends BoardState {
 	private int depth;
 
 	public BoardStateIDS(long board, long prev, int depth) {
-		super();
-		this.board = board;
-		this.prev = prev;
+		super(board, prev);
 		this.depth = depth;
-	}
-
-	public long getBoard() {
-		return board;
-	}
-
-	public void setBoard(long board) {
-		this.board = board;
-	}
-
-	public long getPrev() {
-		return prev;
-	}
-
-	public void setPrev(long prev) {
-		this.prev = prev;
 	}
 
 	public int getDepth() {
@@ -38,7 +23,7 @@ public class BoardStateIDS {
 
 	@Override
 	public String toString() {
-		return "BoardStateIDS [board=" + board + ", prev=" + prev + ", depth=" + depth + "]";
+		return "BoardStateIDS [depth=" + depth + ", toString()=" + super.toString() + "]";
 	}
 
 }

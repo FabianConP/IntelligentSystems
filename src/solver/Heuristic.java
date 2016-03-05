@@ -4,8 +4,16 @@ import board.Board;
 
 public class Heuristic {
 
-	public static final String H[] = { "h1", "h2", "h3" };
+	//Heuristics implemented
+	//h1: Manhattan
+	//h2: Furious boy
+	public static final String H[] = { "h1", "h2" };
 
+	/**
+	 * Manhattan's heuristic
+	 * @param board Puzzle 4x4
+	 * @return estimated cost for the board
+	 */
 	public static int h1(Long board) {
 		int est = 0, row = 0, col = 0, id = 0, size = Board.SIZE;
 		for (int i = 0; i < size; i++)
@@ -18,6 +26,11 @@ public class Heuristic {
 		return est;
 	}
 
+	/**
+	 * Furious boy's heuristic
+	 * @param board Puzzle 4x4
+	 * @return estimated cost for the board
+	 */
 	public static int h2(Long board) {
 		int est = 0, correct = 0, id = 0, size = Board.SIZE;
 		for (int i = 0; i < size; i++)
@@ -30,9 +43,4 @@ public class Heuristic {
 		return est;
 	}
 
-	public static int h3(Long board) {
-		int h1 = h1(board);
-		int h2 = h2(board);
-		return Math.max(h1, h2);
-	}
 }
