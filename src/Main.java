@@ -14,7 +14,7 @@ public class Main {
 	static final int NUM_IDS = 1;
 
 	public static void main(String[] args) throws Exception {
-		 System.setOut(new PrintStream("Log.txt"));
+		System.setOut(new PrintStream("Log.txt"));
 		StringBuilder r = new StringBuilder();
 		for (int i = MIN_AMOUNT_RAND_MOV; i <= MAX_AMOUNT_RAND_MOV; i += 5) {
 			r.append("Rand" + i + "\n");
